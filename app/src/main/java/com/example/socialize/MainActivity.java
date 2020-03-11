@@ -29,24 +29,22 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         asociarViews();
         autenticacion = FirebaseAuth.getInstance();
-
-        loginUsuario();
     }
 
-    private void loginUsuario() {
-        autenticacion.signInWithEmailAndPassword("", "")
+    private void loginUsuario(String usuario, String passwd) {
+        autenticacion.signInWithEmailAndPassword(usuario, passwd)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d("AAA", "signInWithEmail:success");
+                            Log.d("AAA", "Bienvenido.");
                             FirebaseUser usuario = autenticacion.getCurrentUser();
                             //updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("AAA", "signInWithEmail:failure", task.getException());
-                            Toast.makeText(getApplicationContext(), "Authentication failed.",
+                            Toast.makeText(getApplicationContext(), "Usuario o contraseña invalidos.",
                                     Toast.LENGTH_SHORT).show();
                             //updateUI(null);
                         }
@@ -71,28 +69,6 @@ public class MainActivity extends AppCompatActivity {
         botonRegistro = findViewById(R.id.botonRegistrate);
         usuario = findViewById(R.id.editTextUser);
         passwd = findViewById(R.id.editTextPasswd);
-
-        autenticacion.signInWithEmailAndPassword("", "")
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d("AAA", "signInWithEmail:correcto");
-                            FirebaseUser user = autenticacion.getCurrentUser();
-                            //updateUI(user);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w("AAA", "signInWithEmail:falló", task.getException());
-                            Toast.makeText(getApplicationContext(), "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                            //updateUI(null);
-                        }
-
-                        // ...
-                    }
-                });
-
     }
 
     /**
@@ -110,8 +86,10 @@ public class MainActivity extends AppCompatActivity {
      */
     private void accionBoton(Button botonClave) {
         if(botonLogin.getId() == botonClave.getId()){
-            startActivity(new Intent(this, MenuNavegacion.class));
-        }if(botonRegistro.getId() == botonClave.getId()){
+            //PETA, HAY QUE CONTROLAR QUE LLEGUEN LOS CAMPOS INFORMADOS
+            loginUsuario(usuario.getText().toString(), passwd.getText().toString());
+        }
+        if(botonRegistro.getId() == botonClave.getId()){
 
         }
     }
