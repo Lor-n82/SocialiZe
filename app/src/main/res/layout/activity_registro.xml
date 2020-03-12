@@ -7,7 +7,7 @@
     tools:context=".Registro">
 
     <Button
-        android:id="@+id/botonLogin"
+        android:id="@+id/botonPantallaRegistro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="onClick"

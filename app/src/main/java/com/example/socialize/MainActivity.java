@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
             loginUsuario(usuario.getText().toString(), passwd.getText().toString());
         }
         if(botonRegistro.getId() == botonClave.getId()){
-
+            startActivity(new Intent(this, Registro.class));
         }
     }
 

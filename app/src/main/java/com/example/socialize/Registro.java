@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +17,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Registro extends AppCompatActivity {
 
     private Button registro;
@@ -26,15 +30,27 @@ public class Registro extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
-        asociarViews();
         autenticacion = FirebaseAuth.getInstance();
-
-        crearUsuario();
-
+        asociarViews();
     }
 
-    private void crearUsuario() {
-        autenticacion.createUserWithEmailAndPassword("","")
+    private List<String> cargarDatos(List<String> lista) {
+        lista.add(mail.getText().toString().trim());
+        lista.add(passwd.getText().toString().trim());
+
+        if(TextUtils.isEmpty(lista.get(0))){
+            Toast.makeText(this,"Introduce un mail",Toast.LENGTH_LONG).show();
+        }
+
+        if(TextUtils.isEmpty(lista.get(1))){
+            Toast.makeText(this,"Introduce una contraseña",Toast.LENGTH_LONG).show();
+        }
+
+        return lista;
+    }
+
+    private void crearUsuario(String mail, String passwd) {
+        autenticacion.createUserWithEmailAndPassword(mail,passwd)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -65,7 +81,7 @@ public class Registro extends AppCompatActivity {
      * Fnc asociarViews.
      */
     private void asociarViews() {
-        registro =  findViewById(R.id.botonLogin);
+        registro =  findViewById(R.id.botonPantallaRegistro);
         mail = findViewById(R.id.editTextMail);
         passwd = findViewById(R.id.editTextPasswd);
     }
@@ -85,7 +101,9 @@ public class Registro extends AppCompatActivity {
      */
     private void accionBoton(Button botonClave) {
         if(registro.getId() == botonClave.getId()){
-
+            List<String> lista = new ArrayList<>();
+            lista = cargarDatos(lista);
+            crearUsuario(lista.get(0), lista.get(1));
         }
     }
 }
