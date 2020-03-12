@@ -10,14 +10,14 @@ import com.google.firebase.database.ValueEventListener;
 
 public class DataBase {
 
-    private void escribirDDBB(FirebaseDatabase database, DatabaseReference myRef){
+    public void escribirDDBB(FirebaseDatabase database, DatabaseReference myRef){
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("message");
 
         myRef.setValue("Hello, World!");
     }
 
-    private void leerDDBB(DatabaseReference myRef){
+    public void leerDDBB(DatabaseReference myRef){
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
