@@ -8,13 +8,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
+
 public class DataBase {
 
-    public static void escribirDDBB(FirebaseDatabase database, DatabaseReference myRef){
+    public static void escribirDDBB(FirebaseDatabase database, DatabaseReference myRef, HashMap<String, String> mapa){
         database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("message");
+        myRef = database.getReference(mapa.get("clave"));
 
-        myRef.setValue("Hello, World!");
+        myRef.child("prueba").setValue(mapa.get("valor"));
     }
 
     public static void leerDDBB(DatabaseReference myRef){
