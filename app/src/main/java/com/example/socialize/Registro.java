@@ -3,6 +3,7 @@ package com.example.socialize;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -15,6 +16,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
@@ -32,6 +34,8 @@ public class Registro extends AppCompatActivity {
         setContentView(R.layout.activity_registro);
         autenticacion = FirebaseAuth.getInstance();
         asociarViews();
+
+
     }
 
     private List<String> cargarDatos(List<String> lista) {
@@ -49,32 +53,38 @@ public class Registro extends AppCompatActivity {
         return lista;
     }
 
+    /**
+     * Fnc crearUsuario.
+     * Registra un usuario si no existe en BBDD
+     * @param mail
+     * @param passwd
+     */
     private void crearUsuario(String mail, String passwd) {
         autenticacion.createUserWithEmailAndPassword(mail,passwd)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d("AAA", "createUserWithEmail:correcto");
                             FirebaseUser usuario = autenticacion.getCurrentUser();
-                            //updateUI(usuario);
+                            volver(usuario);
                         } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w("AAA", "createUserWithEmail:falló", task.getException());
-                            Toast.makeText(getApplicationContext(),"Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                            //updateUI(null);
+                            if(task.getException() instanceof FirebaseAuthUserCollisionException){
+                                Toast.makeText(getApplicationContext(), "El usuario ya existe.",
+                                        Toast.LENGTH_SHORT).show();
+                            }else {
+                                // If sign in fails, display a message to the user.
+                                Log.w("error", "ha fallado el registro", task.getException());
+                                Toast.makeText(getApplicationContext(), "Fallo el registro.",
+                                        Toast.LENGTH_SHORT).show();
+                                volver(null);
+                            }
                         }
                 }
         });
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        FirebaseUser usuario = autenticacion.getCurrentUser();
-        //updateUI(usuario);
+    private void volver(FirebaseUser usuario) {
+        startActivity(new Intent(this, MainActivity.class));
     }
 
     /**
@@ -84,6 +94,9 @@ public class Registro extends AppCompatActivity {
         registro =  findViewById(R.id.botonPantallaRegistro);
         mail = findViewById(R.id.editTextMail);
         passwd = findViewById(R.id.editTextPasswd);
+
+        mail.setText("");
+        passwd.setText("");
     }
 
     /**

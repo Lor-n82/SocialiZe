@@ -8,6 +8,16 @@ public class Usuario {
     private int edad;
     private String mail;
 
+    public String getPasswd() {
+        return passwd;
+    }
+
+    public void setPasswd(String passwd) {
+        this.passwd = passwd;
+    }
+
+    private String passwd;
+
     public String getNombreUsuario() {
         return nombreUsuario;
     }
