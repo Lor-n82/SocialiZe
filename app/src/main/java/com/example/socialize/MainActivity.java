@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.socialize.menu.DataBase;
+import com.example.socialize.menu.Usuario;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -25,6 +26,7 @@ import java.util.HashMap;
 public class MainActivity extends AppCompatActivity {
     private FirebaseDatabase database;
     private DatabaseReference myRef;
+    private Usuario mUsuario;
     private HashMap<String, String> mapa;
     private Button botonLogin, botonRegistro;
     private EditText usuario, passwd;
@@ -38,7 +40,8 @@ public class MainActivity extends AppCompatActivity {
         autenticacion = FirebaseAuth.getInstance();
 
         mapa = new HashMap<>();
-        mapa.put("clave","usuario");
+        mapa.put("padre","usuario");
+        mapa.put("clave","nombre");
         mapa.put("valor","loren");
 
         DataBase.escribirDDBB(database, myRef, mapa);
