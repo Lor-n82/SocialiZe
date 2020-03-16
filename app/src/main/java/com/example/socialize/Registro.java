@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.socialize.menu.DataBase;
+import com.example.socialize.menu.Usuario;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -34,6 +35,9 @@ public class Registro extends AppCompatActivity {
     private HashMap<String, String> mapaUsuario;
     private FirebaseDatabase database;
     private DatabaseReference myRef;
+    private Usuario usuario;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,24 +55,27 @@ public class Registro extends AppCompatActivity {
     private HashMap<String, String> llenarMap(HashMap<String, String> mapa, List<String> lista) {
         mapa = new HashMap<>();
         mapa.put("nodoPadre","usuario");
-        mapa.put("clave","mail");
-        mapa.put("valor",lista.get(0));
+        mapa.put("claveMail","mail");
+        mapa.put("valorMail",lista.get(0));
+        mapa.put("clavePasswd","passwd");
+        mapa.put("valorPasswd",lista.get(1));
         return mapa;
     }
 
-    private List<String> cargarDatos(List<String> lista) {
-        lista.add(mail.getText().toString().trim());
-        lista.add(passwd.getText().toString().trim());
+    private Usuario cargarDatos(Usuario user) {
+        user.setIdUsuario(autenticacion.getUid());
+        user.setMail(mail.getText().toString().trim());
+        user.setPasswd(passwd.getText().toString().trim());
 
-        if(TextUtils.isEmpty(lista.get(0))){
+        if(TextUtils.isEmpty(user.getMail())){
             Toast.makeText(this,"Introduce un mail",Toast.LENGTH_LONG).show();
         }
 
-        if(TextUtils.isEmpty(lista.get(1))){
+        if(TextUtils.isEmpty(user.getPasswd())){
             Toast.makeText(this,"Introduce una contraseña",Toast.LENGTH_LONG).show();
         }
 
-        return lista;
+        return user;
     }
 
     /**
@@ -132,11 +139,10 @@ public class Registro extends AppCompatActivity {
      */
     private void accionBoton(Button botonClave) {
         if(registro.getId() == botonClave.getId()){
-            List<String> lista = new ArrayList<>();
-            lista = cargarDatos(lista);
-            mapaUsuario = llenarMap(mapaUsuario, lista);
-            DataBase.escribirDDBB(database, myRef, mapaUsuario);
-            crearUsuario(lista.get(0), lista.get(1));
+            usuario =  new Usuario();
+            usuario = cargarDatos(usuario);
+            DataBase.escribirDDBB(database, myRef, usuario);
+            crearUsuario(usuario.getMail(),usuario.getPasswd());
         }
     }
 }

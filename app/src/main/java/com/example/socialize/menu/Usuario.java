@@ -2,16 +2,16 @@ package com.example.socialize.menu;
 
 public class Usuario {
 
-    private long idUsuario;
+    private String idUsuario;
     private String nombreUsuario;
     private String nombre;
     private String apellido;
     private int edad;
     private String mail;
 
-    public long getIdUsuario() { return idUsuario; }
+    public String getIdUsuario() { return idUsuario; }
 
-    public void setIdUsuario(long idUsuario) { this.idUsuario = idUsuario; }
+    public void setIdUsuario(String idUsuario) { this.idUsuario = idUsuario; }
 
     public String getPasswd() {
         return passwd;
