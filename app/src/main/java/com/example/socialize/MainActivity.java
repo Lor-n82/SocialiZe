@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.socialize.menu.DataBase;
 import com.example.socialize.menu.Usuario;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -79,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         botonLogin = findViewById(R.id.botonLogin);
         botonRegistro = findViewById(R.id.botonRegistrate);
         usuario = findViewById(R.id.editTextUser);
-        passwd = findViewById(R.id.editTextPasswd);
+        passwd = findViewById(R.id.etUsuario);
     }
 
     /**

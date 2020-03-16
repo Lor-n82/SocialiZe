@@ -23,14 +23,13 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class Registro extends AppCompatActivity {
 
     private Button registro;
-    private EditText mail, passwd;
+    private EditText mail, passwd, passwd2, nombre;
     private FirebaseAuth autenticacion;
     private HashMap<String, String> mapaUsuario;
     private FirebaseDatabase database;
@@ -63,16 +62,27 @@ public class Registro extends AppCompatActivity {
     }
 
     private Usuario cargarDatos(Usuario user) {
+
         user.setIdUsuario(autenticacion.getUid());
+        user.setNombre(nombre.getText().toString().trim());
         user.setMail(mail.getText().toString().trim());
         user.setPasswd(passwd.getText().toString().trim());
+        user.setPasswd2(passwd2.getText().toString().trim());
 
         if(TextUtils.isEmpty(user.getMail())){
             Toast.makeText(this,"Introduce un mail",Toast.LENGTH_LONG).show();
         }
 
+        if(TextUtils.isEmpty(user.getNombre())){
+            Toast.makeText(this,"Introduce un usuario",Toast.LENGTH_LONG).show();
+        }
+
         if(TextUtils.isEmpty(user.getPasswd())){
             Toast.makeText(this,"Introduce una contraseña",Toast.LENGTH_LONG).show();
+        }
+
+        if(TextUtils.isEmpty(user.getPasswd2())){
+            Toast.makeText(this,"Introduce la confirmación de la contraseña",Toast.LENGTH_LONG).show();
         }
 
         return user;
@@ -117,11 +127,17 @@ public class Registro extends AppCompatActivity {
      */
     private void asociarViews() {
         registro =  findViewById(R.id.botonPantallaRegistro);
-        mail = findViewById(R.id.editTextMail);
-        passwd = findViewById(R.id.editTextPasswd);
+        mail = findViewById(R.id.etEmail);
+        nombre = findViewById(R.id.etUsuario);
+        passwd = findViewById(R.id.etContraseña);
+        passwd2 = findViewById(R.id.etContraseña2);
+
+
 
         mail.setText("");
         passwd.setText("");
+        passwd2.setText("");
+        nombre.setText("");
     }
 
     /**

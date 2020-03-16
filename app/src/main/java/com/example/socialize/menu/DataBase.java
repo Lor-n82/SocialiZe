@@ -18,6 +18,7 @@ public class DataBase {
         myRef.child("nombre").setValue(user.getNombre());
         myRef.child("mail").setValue(user.getMail());
         myRef.child("pass").setValue(user.getPasswd());
+        myRef.child("pass2").setValue(user.getPasswd2());
     }
 
     public static void leerDDBB(DatabaseReference myRef){

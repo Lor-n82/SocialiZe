@@ -7,6 +7,7 @@ public class Usuario {
     private String idUsuario;
     private String nombre;
     private String passwd;
+    private String passwd2;
     private String apellido;
     private int edad;
     private String mail;
@@ -23,6 +24,13 @@ public class Usuario {
 
     public void setPasswd(String passwd) {
         this.passwd = passwd;
+    }
+    public String getPasswd2() {
+        return passwd2;
+    }
+
+    public void setPasswd2(String passwd2) {
+        this.passwd2 = passwd2;
     }
 
     public String getNombre() {
