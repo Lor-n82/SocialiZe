@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.socialize.menu.Usuario;
+import com.example.socialize.menu.DataBase;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -24,9 +24,8 @@ import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
     private FirebaseDatabase database;
+    private DatabaseReference reference;
     private DatabaseReference myRef;
-    private Usuario mUsuario;
-    private HashMap<String, String> mapa;
     private Button botonLogin, botonRegistro;
     private EditText usuario, passwd;
     private FirebaseAuth autenticacion;
@@ -38,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
         asociarViews();
         autenticacion = FirebaseAuth.getInstance();
 
-        //DataBase.escribirDDBB(database, myRef, mapa);
     }
 
     private void loginUsuario(String usuario, String passwd) {
@@ -77,8 +75,8 @@ public class MainActivity extends AppCompatActivity {
     private void asociarViews() {
         botonLogin = findViewById(R.id.botonLogin);
         botonRegistro = findViewById(R.id.botonRegistrate);
-        usuario = findViewById(R.id.editTextUser);
-        passwd = findViewById(R.id.etUsuario);
+        usuario = findViewById(R.id.etUsuario);
+        passwd = findViewById(R.id.etPasswd);
     }
 
     /**
@@ -97,7 +95,9 @@ public class MainActivity extends AppCompatActivity {
     private void accionBoton(Button botonClave) {
         if(botonLogin.getId() == botonClave.getId()){
             //PETA, HAY QUE CONTROLAR QUE LLEGUEN LOS CAMPOS INFORMADOS
+            //DataBase.leerDDBB(myRef);
             loginUsuario(usuario.getText().toString(), passwd.getText().toString());
+
         }
         if(botonRegistro.getId() == botonClave.getId()){
             startActivity(new Intent(this, Registro.class));
