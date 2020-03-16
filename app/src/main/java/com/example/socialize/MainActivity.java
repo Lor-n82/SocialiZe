@@ -39,12 +39,7 @@ public class MainActivity extends AppCompatActivity {
         asociarViews();
         autenticacion = FirebaseAuth.getInstance();
 
-        mapa = new HashMap<>();
-        mapa.put("padre","usuario");
-        mapa.put("clave","nombre");
-        mapa.put("valor","loren");
-
-        DataBase.escribirDDBB(database, myRef, mapa);
+        //DataBase.escribirDDBB(database, myRef, mapa);
     }
 
     private void loginUsuario(String usuario, String passwd) {

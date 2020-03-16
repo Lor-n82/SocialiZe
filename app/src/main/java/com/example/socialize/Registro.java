@@ -12,14 +12,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.socialize.menu.DataBase;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Registro extends AppCompatActivity {
@@ -27,6 +31,9 @@ public class Registro extends AppCompatActivity {
     private Button registro;
     private EditText mail, passwd;
     private FirebaseAuth autenticacion;
+    private HashMap<String, String> mapaUsuario;
+    private FirebaseDatabase database;
+    private DatabaseReference myRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +41,19 @@ public class Registro extends AppCompatActivity {
         setContentView(R.layout.activity_registro);
         autenticacion = FirebaseAuth.getInstance();
         asociarViews();
+    }
 
-
+    /**
+     * Llena el Hasmap con los datos de usuario
+     * @param mapa
+     * @param lista
+     */
+    private HashMap<String, String> llenarMap(HashMap<String, String> mapa, List<String> lista) {
+        mapa = new HashMap<>();
+        mapa.put("nodoPadre","usuario");
+        mapa.put("clave","mail");
+        mapa.put("valor",lista.get(0));
+        return mapa;
     }
 
     private List<String> cargarDatos(List<String> lista) {
@@ -116,6 +134,8 @@ public class Registro extends AppCompatActivity {
         if(registro.getId() == botonClave.getId()){
             List<String> lista = new ArrayList<>();
             lista = cargarDatos(lista);
+            mapaUsuario = llenarMap(mapaUsuario, lista);
+            DataBase.escribirDDBB(database, myRef, mapaUsuario);
             crearUsuario(lista.get(0), lista.get(1));
         }
     }

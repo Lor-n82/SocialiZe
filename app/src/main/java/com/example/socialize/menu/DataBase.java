@@ -14,7 +14,7 @@ public class DataBase {
 
     public static void escribirDDBB(FirebaseDatabase database, DatabaseReference myRef, HashMap<String, String> mapa){
         database = FirebaseDatabase.getInstance();
-        myRef = database.getReference(mapa.get("padre"));
+        myRef = database.getReference(mapa.get("nodoPadre"));
 
         myRef.child(mapa.get("clave")).setValue(mapa.get("valor"));
     }
