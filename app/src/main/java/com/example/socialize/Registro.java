@@ -42,7 +42,6 @@ public class Registro extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
-        autenticacion = FirebaseAuth.getInstance();
         asociarViews();
     }
 
@@ -62,8 +61,7 @@ public class Registro extends AppCompatActivity {
     }
 
     private Usuario cargarDatos(Usuario user) {
-
-        user.setIdUsuario(autenticacion.getUid());
+        autenticacion = FirebaseAuth.getInstance();
         user.setNombre(nombre.getText().toString().trim());
         user.setMail(mail.getText().toString().trim());
         user.setPasswd(passwd.getText().toString().trim());
@@ -101,7 +99,7 @@ public class Registro extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             FirebaseUser usuario = autenticacion.getCurrentUser();
-                            volver(usuario);
+                            //volver(usuario);
                         } else {
                             if(task.getException() instanceof FirebaseAuthUserCollisionException){
                                 Toast.makeText(getApplicationContext(), "El usuario ya existe.",
@@ -111,7 +109,7 @@ public class Registro extends AppCompatActivity {
                                 Log.w("error", "ha fallado el registro", task.getException());
                                 Toast.makeText(getApplicationContext(), "Fallo el registro.",
                                         Toast.LENGTH_SHORT).show();
-                                volver(null);
+                                //volver(null);
                             }
                         }
                 }
@@ -157,8 +155,9 @@ public class Registro extends AppCompatActivity {
         if(registro.getId() == botonClave.getId()){
             usuario =  new Usuario();
             usuario = cargarDatos(usuario);
-            DataBase.escribirDDBB(database, myRef, usuario);
             crearUsuario(usuario.getMail(),usuario.getPasswd());
+            usuario.setIdUsuario(autenticacion.getUid());
+            DataBase.escribirDDBB(database, myRef, usuario);
         }
     }
 }
