@@ -2,12 +2,16 @@ package com.example.socialize.menu;
 
 public class Usuario {
 
+    /* --------------------- PROPIEDADES --------------------------- */
+
     private String idUsuario;
-    private String nombreUsuario;
     private String nombre;
+    private String passwd;
     private String apellido;
     private int edad;
     private String mail;
+
+    /* ---------------------- GETTERS / SETTERS --------------------- */
 
     public String getIdUsuario() { return idUsuario; }
 
@@ -19,16 +23,6 @@ public class Usuario {
 
     public void setPasswd(String passwd) {
         this.passwd = passwd;
-    }
-
-    private String passwd;
-
-    public String getNombreUsuario() {
-        return nombreUsuario;
-    }
-
-    public void setNombreUsuario(String nombreUsuario) {
-        this.nombreUsuario = nombreUsuario;
     }
 
     public String getNombre() {

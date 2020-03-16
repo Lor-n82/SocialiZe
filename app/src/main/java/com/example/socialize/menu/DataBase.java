@@ -15,7 +15,7 @@ public class DataBase {
     public static void escribirDDBB(FirebaseDatabase database, DatabaseReference myRef, Usuario user){
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference(String.valueOf(user.getIdUsuario()));
-
+        myRef.child("nombre").setValue(user.getNombre());
         myRef.child("mail").setValue(user.getMail());
         myRef.child("pass").setValue(user.getPasswd());
     }
